@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Control Pro - Sistema de Gestión Comercial</title>
+  <title>Control Pro - Sistema de Gestión Comercial- Modificado Por Fernadno Lopez</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=3.5">
 </head>
+
 <body>
 
   <!-- ========================================== -->
@@ -19,24 +21,31 @@
       <div class="login-card">
         <div class="login-logo">🛒</div>
         <h2 class="login-title">Bienvenido</h2>
-        <p class="login-subtitle">Sistema Integral de Gestión Comercial y Punto de Venta</p>
-        
+        <p class="login-subtitle">Sistema Integral de Gestión Comercial y Punto de Venta-Fernando Lopez</p>
+
         <form id="loginForm" onsubmit="handleLogin(event)">
           <div class="login-form">
             <div class="form-group">
               <label for="loginUsername">Usuario</label>
-              <input type="text" id="loginUsername" class="form-control" placeholder="admin" value="admin" required autocomplete="username">
+              <input type="text" id="loginUsername" class="form-control" placeholder="admin" value="admin" required
+                autocomplete="username">
             </div>
-            
+
             <div class="form-group">
               <label for="loginPassword">Contraseña</label>
-              <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" value="admin123" required autocomplete="current-password">
+              <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" value="admin123"
+                required autocomplete="current-password">
             </div>
           </div>
-          
-          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;" id="loginSubmitBtn">
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;"
+            id="loginSubmitBtn">
             Iniciar Sesión
           </button>
+          <button type="button" class="btn-nuevo" style="width: 100%; justify-content: center; margin-top: 12px;">
+            ⭐ Acceso Rápido Estudiante
+          </button>
+
         </form>
       </div>
     </div>
@@ -47,7 +56,7 @@
   <!-- ========================================== -->
   <div id="dashboardScreen" class="view-screen">
     <div class="dashboard-layout">
-      
+
       <!-- ========================================== -->
       <!-- BARRA LATERAL (SIDEBAR) PROFESIONAL       -->
       <!-- ========================================== -->
@@ -122,375 +131,416 @@
               <div class="status-dot"></div>
               <span id="apiStatusText">Base de Datos Supabase (En línea)</span>
             </div>
-            <button class="btn-theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Alternar entre modo Claro y Oscuro">
+            <button class="btn-theme-toggle" id="themeToggleBtn" onclick="toggleTheme()"
+              title="Alternar entre modo Claro y Oscuro">
               <span id="themeIcon">🌙</span> <span id="themeText">Oscuro</span>
             </button>
-            <button class="btn-sync" onclick="refreshAllDataFromBackend()" title="Sincronizar datos con la base de datos">
+            <button class="btn-sync" onclick="refreshAllDataFromBackend()"
+              title="Sincronizar datos con la base de datos">
               🔄 Sincronizar
             </button>
+            <button class="btn-nuevo">Acceso Rápido Estudiante</button>
           </div>
         </header>
 
         <main class="content-body">
 
-      <!-- ========================================== -->
-      <!-- MÓDULO 1: PRODUCTOS                        -->
-      <!-- ========================================== -->
-      <section id="mod-productos" class="module-view active">
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-icon blue">📦</div>
-            <div class="metric-info"><h3 id="m1TotalProd">0</h3><p>Total de Productos</p></div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-icon green">✅</div>
-            <div class="metric-info"><h3 id="m1ActivosProd">0</h3><p>Productos Activos</p></div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-icon amber">⚠️</div>
-            <div class="metric-info"><h3 id="m1CriticoProd">0</h3><p>Stock Bajo / Crítico</p></div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-icon purple">🏷️</div>
-            <div class="metric-info"><h3 id="m1TotalCat">0</h3><p>Categorías Disponibles</p></div>
-          </div>
-        </div>
-
-        <div class="toolbar-card">
-          <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="m1SearchInput" class="search-input" placeholder="Buscar por código, nombre o descripción...">
-          </div>
-
-          <div class="filter-pill-bar">
-            <button type="button" class="filter-pill active" onclick="setProductPillFilter('', this)">Todos</button>
-            <button type="button" class="filter-pill" onclick="setProductPillFilter('ACTIVO', this)">Activos</button>
-            <button type="button" class="filter-pill" onclick="setProductPillFilter('INACTIVO', this)">Inactivos</button>
-            <button type="button" class="filter-pill" onclick="setProductPillFilter('CRITICO', this)">⚠️ Stock Crítico</button>
-          </div>
-
-          <div class="filter-group">
-            <select id="m1CategoryFilter" class="select-custom">
-              <option value="">Todas las Categorías</option>
-            </select>
-            <select id="m1StatusFilter" class="select-custom" style="display: none;">
-              <option value="">Todos los Estados</option>
-              <option value="ACTIVO">Activos</option>
-              <option value="INACTIVO">Inactivos</option>
-              <option value="CRITICO">⚠️ Stock Crítico</option>
-            </select>
-            <button class="btn btn-primary" onclick="openProductModal()">
-              <span>➕</span> Registrar Producto
-            </button>
-          </div>
-        </div>
-
-        <div class="table-card">
-          <div class="table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Producto</th>
-                  <th>Categoría</th>
-                  <th>P. Compra</th>
-                  <th>P. Venta</th>
-                  <th>Existencia</th>
-                  <th>Stock Mín.</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="m1TableBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================== -->
-      <!-- MÓDULO 2: CATEGORÍAS                       -->
-      <!-- ========================================== -->
-      <section id="mod-categorias" class="module-view">
-        <div class="toolbar-card">
-          <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="m2SearchInput" class="search-input" placeholder="Buscar categoría por nombre o descripción...">
-          </div>
-          <button class="btn btn-primary" onclick="openCategoryModal()">
-            <span>➕</span> Registrar Categoría
-          </button>
-        </div>
-
-        <div class="table-card">
-          <div class="table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Nombre Categoría</th>
-                  <th>Descripción</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="m2TableBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================== -->
-      <!-- MÓDULO 3: CLIENTES                         -->
-      <!-- ========================================== -->
-      <section id="mod-clientes" class="module-view">
-        <div class="toolbar-card">
-          <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="m3SearchInput" class="search-input" placeholder="Buscar cliente por nombres, apellidos o NIT...">
-          </div>
-          <button class="btn btn-primary" onclick="openClientModal()">
-            <span>➕</span> Registrar Cliente
-          </button>
-        </div>
-
-        <div class="table-card">
-          <div class="table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nombres</th>
-                  <th>Apellidos</th>
-                  <th>NIT</th>
-                  <th>Teléfono</th>
-                  <th>Correo Electrónico</th>
-                  <th>Dirección</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="m3TableBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================== -->
-      <!-- MÓDULO 4: PROVEEDORES                      -->
-      <!-- ========================================== -->
-      <section id="mod-proveedores" class="module-view">
-        <div class="toolbar-card">
-          <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="m4SearchInput" class="search-input" placeholder="Buscar proveedor por nombre, NIT o contacto...">
-          </div>
-          <button class="btn btn-primary" onclick="openSupplierModal()">
-            <span>➕</span> Registrar Proveedor
-          </button>
-        </div>
-
-        <div class="table-card">
-          <div class="table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nombre Proveedor</th>
-                  <th>NIT</th>
-                  <th>Contacto</th>
-                  <th>Teléfono</th>
-                  <th>Correo</th>
-                  <th>Dirección</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="m4TableBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================== -->
-      <!-- MÓDULO 5: COMPRAS                          -->
-      <!-- ========================================== -->
-      <section id="mod-compras" class="module-view">
-        <div class="toolbar-card">
-          <h3 style="font-size: 1.1rem; font-weight: 700;">Historial de Compras (Aumento de Inventario)</h3>
-          <button class="btn btn-primary" onclick="openPurchaseModal()">
-            <span>➕</span> Registrar Nueva Compra
-          </button>
-        </div>
-
-        <div class="table-card">
-          <div class="table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <th># Compra</th>
-                  <th>Proveedor</th>
-                  <th>Fecha</th>
-                  <th>Usuario Responsable</th>
-                  <th>Total Compra</th>
-                  <th>Estado</th>
-                  <th>Detalles</th>
-                </tr>
-              </thead>
-              <tbody id="m5TableBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========================================== -->
-      <!-- MÓDULO 6: VENTAS                           -->
-      <!-- ========================================== -->
-      <section id="mod-ventas" class="module-view">
-        
-        <!-- Vista Terminal POS & Historial -->
-        <div class="pos-layout">
-          <div>
-            <div class="toolbar-card" style="margin-bottom: 16px;">
-              <h3 style="font-size: 1.1rem; font-weight: 700;">🛒 Terminal de Venta (POS Supermercado)</h3>
-            </div>
-            
-            <div class="toolbar-card" style="margin-bottom: 16px;">
-              <div class="form-group" style="flex: 1;">
-                <label for="posClienteSelect">Seleccionar Cliente</label>
-                <select id="posClienteSelect" class="form-control">
-                  <option value="1">Juan Pérez (NIT: 458921-9)</option>
-                </select>
+          <!-- ========================================== -->
+          <!-- MÓDULO 1: PRODUCTOS                        -->
+          <!-- ========================================== -->
+          <section id="mod-productos" class="module-view active">
+            <div class="metrics-grid">
+              <div class="metric-card">
+                <div class="metric-icon blue">📦</div>
+                <div class="metric-info">
+                  <h3 id="m1TotalProd">0</h3>
+                  <p>Total de Productos</p>
+                </div>
               </div>
-              
-              <div class="form-group" style="flex: 1;">
-                <label for="posProductoSelect">Agregar Producto</label>
-                <select id="posProductoSelect" class="form-control" onchange="posProductSelected()">
-                  <option value="">Seleccione un producto...</option>
-                </select>
+              <div class="metric-card">
+                <div class="metric-icon green">✅</div>
+                <div class="metric-info">
+                  <h3 id="m1ActivosProd">0</h3>
+                  <p>Productos Activos</p>
+                </div>
               </div>
-              
-              <div class="form-group" style="width: 100px;">
-                <label for="posCantidadInput">Cantidad</label>
-                <input type="number" id="posCantidadInput" class="form-control" value="1" min="1">
+              <div class="metric-card">
+                <div class="metric-icon amber">⚠️</div>
+                <div class="metric-info">
+                  <h3 id="m1CriticoProd">0</h3>
+                  <p>Stock Bajo / Crítico</p>
+                </div>
               </div>
-
-              <button class="btn btn-primary" style="align-self: flex-end;" onclick="addPosCartItem()">
-                ➕ Agregar
-              </button>
+              <div class="metric-card">
+                <div class="metric-icon purple">🏷️</div>
+                <div class="metric-info">
+                  <h3 id="m1TotalCat">0</h3>
+                  <p>Categorías Disponibles</p>
+                </div>
+              </div>
             </div>
 
-            <!-- Tabla de Carrito Actual -->
-            <div class="table-card" style="margin-bottom: 20px;">
+            <div class="toolbar-card">
+              <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="m1SearchInput" class="search-input"
+                  placeholder="Buscar por código, nombre o descripción...">
+              </div>
+
+              <div class="filter-pill-bar">
+                <button type="button" class="filter-pill active" onclick="setProductPillFilter('', this)">Todos</button>
+                <button type="button" class="filter-pill"
+                  onclick="setProductPillFilter('ACTIVO', this)">Activos</button>
+                <button type="button" class="filter-pill"
+                  onclick="setProductPillFilter('INACTIVO', this)">Inactivos</button>
+                <button type="button" class="filter-pill" onclick="setProductPillFilter('CRITICO', this)">⚠️ Stock
+                  Crítico</button>
+              </div>
+
+              <div class="filter-group">
+                <select id="m1CategoryFilter" class="select-custom">
+                  <option value="">Todas las Categorías</option>
+                </select>
+                <select id="m1StatusFilter" class="select-custom" style="display: none;">
+                  <option value="">Todos los Estados</option>
+                  <option value="ACTIVO">Activos</option>
+                  <option value="INACTIVO">Inactivos</option>
+                  <option value="CRITICO">⚠️ Stock Crítico</option>
+                </select>
+                <button class="btn btn-primary" onclick="openProductModal()">
+                  <span>➕</span> Registrar Producto
+                </button>
+              </div>
+            </div>
+
+            <div class="table-card">
               <div class="table-responsive">
                 <table>
                   <thead>
                     <tr>
+                      <th>Código</th>
                       <th>Producto</th>
-                      <th>Precio Unit.</th>
-                      <th>Cantidad</th>
-                      <th>Subtotal</th>
-                      <th>Acción</th>
+                      <th>Categoría</th>
+                      <th>P. Compra</th>
+                      <th>P. Venta</th>
+                      <th>Existencia</th>
+                      <th>Stock Mín.</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
                     </tr>
                   </thead>
-                  <tbody id="posCartTableBody">
-                    <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 30px;">Agregue productos al carrito para realizar la venta.</td></tr>
-                  </tbody>
+                  <tbody id="m1TableBody"></tbody>
                 </table>
               </div>
             </div>
-          </div>
+          </section>
 
-          <!-- Resumen y Cobro de Venta -->
-          <div class="pos-cart-card">
-            <div>
-              <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 16px;">Resumen de Venta</h3>
-              <div class="cart-total-box">
-                <h4>TOTAL A PAGAR</h4>
-                <div class="total-amount" id="posTotalAmount">Q0.00</div>
+          <!-- ========================================== -->
+          <!-- MÓDULO 2: CATEGORÍAS                       -->
+          <!-- ========================================== -->
+          <section id="mod-categorias" class="module-view">
+            <div class="toolbar-card">
+              <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="m2SearchInput" class="search-input"
+                  placeholder="Buscar categoría por nombre o descripción...">
               </div>
-              <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">
-                ⚠️ <strong>Regla de negocio:</strong> El sistema verifica en tiempo real que exista suficiente inventario antes de procesar la venta.
+              <button class="btn btn-primary" onclick="openCategoryModal()">
+                <span>➕</span> Registrar Categoría
+              </button>
+            </div>
+
+            <div class="table-card">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Código</th>
+                      <th>Nombre Categoría</th>
+                      <th>Descripción</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="m2TableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- ========================================== -->
+          <!-- MÓDULO 3: CLIENTES                         -->
+          <!-- ========================================== -->
+          <section id="mod-clientes" class="module-view">
+            <div class="toolbar-card">
+              <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="m3SearchInput" class="search-input"
+                  placeholder="Buscar cliente por nombres, apellidos o NIT...">
+              </div>
+              <button class="btn btn-primary" onclick="openClientModal()">
+                <span>➕</span> Registrar Cliente
+              </button>
+            </div>
+
+            <div class="table-card">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nombres</th>
+                      <th>Apellidos</th>
+                      <th>NIT</th>
+                      <th>Teléfono</th>
+                      <th>Correo Electrónico</th>
+                      <th>Dirección</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="m3TableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- ========================================== -->
+          <!-- MÓDULO 4: PROVEEDORES                      -->
+          <!-- ========================================== -->
+          <section id="mod-proveedores" class="module-view">
+            <div class="toolbar-card">
+              <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="m4SearchInput" class="search-input"
+                  placeholder="Buscar proveedor por nombre, NIT o contacto...">
+              </div>
+              <button class="btn btn-primary" onclick="openSupplierModal()">
+                <span>➕</span> Registrar Proveedor
+              </button>
+            </div>
+
+            <div class="table-card">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nombre Proveedor</th>
+                      <th>NIT</th>
+                      <th>Contacto</th>
+                      <th>Teléfono</th>
+                      <th>Correo</th>
+                      <th>Dirección</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="m4TableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- ========================================== -->
+          <!-- MÓDULO 5: COMPRAS                          -->
+          <!-- ========================================== -->
+          <section id="mod-compras" class="module-view">
+            <div class="toolbar-card">
+              <h3 style="font-size: 1.1rem; font-weight: 700;">Historial de Compras (Aumento de Inventario)</h3>
+              <button class="btn btn-primary" onclick="openPurchaseModal()">
+                <span>➕</span> Registrar Nueva Compra
+              </button>
+            </div>
+
+            <div class="table-card">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th># Compra</th>
+                      <th>Proveedor</th>
+                      <th>Fecha</th>
+                      <th>Usuario Responsable</th>
+                      <th>Total Compra</th>
+                      <th>Estado</th>
+                      <th>Detalles</th>
+                    </tr>
+                  </thead>
+                  <tbody id="m5TableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- ========================================== -->
+          <!-- MÓDULO 6: VENTAS                           -->
+          <!-- ========================================== -->
+          <section id="mod-ventas" class="module-view">
+
+            <!-- Vista Terminal POS & Historial -->
+            <div class="pos-layout">
+              <div>
+                <div class="toolbar-card" style="margin-bottom: 16px;">
+                  <h3 style="font-size: 1.1rem; font-weight: 700;">🛒 Terminal de Venta (POS Supermercado)</h3>
+                </div>
+
+                <div class="toolbar-card" style="margin-bottom: 16px;">
+                  <div class="form-group" style="flex: 1;">
+                    <label for="posClienteSelect">Seleccionar Cliente</label>
+                    <select id="posClienteSelect" class="form-control">
+                      <option value="1">Juan Pérez (NIT: 458921-9)</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group" style="flex: 1;">
+                    <label for="posProductoSelect">Agregar Producto</label>
+                    <select id="posProductoSelect" class="form-control" onchange="posProductSelected()">
+                      <option value="">Seleccione un producto...</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group" style="width: 100px;">
+                    <label for="posCantidadInput">Cantidad</label>
+                    <input type="number" id="posCantidadInput" class="form-control" value="1" min="1">
+                  </div>
+
+                  <button class="btn btn-primary" style="align-self: flex-end;" onclick="addPosCartItem()">
+                    ➕ Agregar
+                  </button>
+                </div>
+
+                <!-- Tabla de Carrito Actual -->
+                <div class="table-card" style="margin-bottom: 20px;">
+                  <div class="table-responsive">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Producto</th>
+                          <th>Precio Unit.</th>
+                          <th>Cantidad</th>
+                          <th>Subtotal</th>
+                          <th>Acción</th>
+                        </tr>
+                      </thead>
+                      <tbody id="posCartTableBody">
+                        <tr>
+                          <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 30px;">Agregue
+                            productos al carrito para realizar la venta.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Resumen y Cobro de Venta -->
+              <div class="pos-cart-card">
+                <div>
+                  <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 16px;">Resumen de Venta</h3>
+                  <div class="cart-total-box">
+                    <h4>TOTAL A PAGAR</h4>
+                    <div class="total-amount" id="posTotalAmount">Q0.00</div>
+                  </div>
+                  <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">
+                    ⚠️ <strong>Regla de negocio:</strong> El sistema verifica en tiempo real que exista suficiente
+                    inventario antes de procesar la venta.
+                  </div>
+                </div>
+
+                <button class="btn btn-success"
+                  style="width: 100%; justify-content: center; padding: 16px; font-size: 1.05rem;"
+                  onclick="processVenta()">
+                  💳 Finalizar y Registrar Venta
+                </button>
               </div>
             </div>
 
-            <button class="btn btn-success" style="width: 100%; justify-content: center; padding: 16px; font-size: 1.05rem;" onclick="processVenta()">
-              💳 Finalizar y Registrar Venta
-            </button>
-          </div>
-        </div>
+            <div class="toolbar-card" style="margin-top: 30px;">
+              <h3 style="font-size: 1.1rem; font-weight: 700;">Historial de Ventas Registradas</h3>
+            </div>
 
-        <div class="toolbar-card" style="margin-top: 30px;">
-          <h3 style="font-size: 1.1rem; font-weight: 700;">Historial de Ventas Registradas</h3>
-        </div>
+            <div class="table-card">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th># Venta</th>
+                      <th>Cliente</th>
+                      <th>Fecha</th>
+                      <th>Usuario</th>
+                      <th>Total</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="m6TableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
 
-        <div class="table-card">
-          <div class="table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <th># Venta</th>
-                  <th>Cliente</th>
-                  <th>Fecha</th>
-                  <th>Usuario</th>
-                  <th>Total</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="m6TableBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+          <!-- ========================================== -->
+          <!-- MÓDULO 7: INVENTARIO                       -->
+          <!-- ========================================== -->
+          <section id="mod-inventario" class="module-view">
+            <div class="metrics-grid">
+              <div class="metric-card">
+                <div class="metric-icon blue">📊</div>
+                <div class="metric-info">
+                  <h3 id="m7ValorInventario">Q0.00</h3>
+                  <p>Valor Total Inventario</p>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon green">📦</div>
+                <div class="metric-info">
+                  <h3 id="m7TotalUnidades">0</h3>
+                  <p>Total Unidades Disponibles</p>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon amber">⚠️</div>
+                <div class="metric-info">
+                  <h3 id="m7BajoStock">0</h3>
+                  <p>Productos con Stock Bajo</p>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon red">🚫</div>
+                <div class="metric-info">
+                  <h3 id="m7Agotados">0</h3>
+                  <p>Productos Agotados</p>
+                </div>
+              </div>
+            </div>
 
-      <!-- ========================================== -->
-      <!-- MÓDULO 7: INVENTARIO                       -->
-      <!-- ========================================== -->
-      <section id="mod-inventario" class="module-view">
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-icon blue">📊</div>
-            <div class="metric-info"><h3 id="m7ValorInventario">Q0.00</h3><p>Valor Total Inventario</p></div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-icon green">📦</div>
-            <div class="metric-info"><h3 id="m7TotalUnidades">0</h3><p>Total Unidades Disponibles</p></div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-icon amber">⚠️</div>
-            <div class="metric-info"><h3 id="m7BajoStock">0</h3><p>Productos con Stock Bajo</p></div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-icon red">🚫</div>
-            <div class="metric-info"><h3 id="m7Agotados">0</h3><p>Productos Agotados</p></div>
-          </div>
-        </div>
+            <div class="toolbar-card">
+              <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="m7SearchInput" class="search-input"
+                  placeholder="Consultar inventario por producto o categoría...">
+              </div>
+            </div>
 
-        <div class="toolbar-card">
-          <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="m7SearchInput" class="search-input" placeholder="Consultar inventario por producto o categoría...">
-          </div>
-        </div>
-
-        <div class="table-card">
-          <div class="table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Producto</th>
-                  <th>Categoría</th>
-                  <th>P. Compra</th>
-                  <th>P. Venta</th>
-                  <th>Existencia Actual</th>
-                  <th>Stock Mínimo</th>
-                  <th>Estado Inventario</th>
-                </tr>
-              </thead>
-              <tbody id="m7TableBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+            <div class="table-card">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Código</th>
+                      <th>Producto</th>
+                      <th>Categoría</th>
+                      <th>P. Compra</th>
+                      <th>P. Venta</th>
+                      <th>Existencia Actual</th>
+                      <th>Stock Mínimo</th>
+                      <th>Estado Inventario</th>
+                    </tr>
+                  </thead>
+                  <tbody id="m7TableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
 
         </main>
       </div>
@@ -700,10 +750,11 @@
 
           <!-- Cuadro Estructurado de Selección de Producto -->
           <div class="purchase-builder-card">
-            <h4 style="font-size: 0.9rem; font-weight: 700; color: #38bdf8; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">
+            <h4
+              style="font-size: 0.9rem; font-weight: 700; color: #38bdf8; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">
               <span>📦</span> Agregar Producto a la Compra
             </h4>
-            
+
             <div style="display: flex; flex-direction: column; gap: 14px;">
               <div class="form-group">
                 <label for="purProductoSelect">Producto a Comprar</label>
@@ -721,7 +772,8 @@
                   <input type="number" step="0.01" id="purPrecioInput" class="form-control" placeholder="0.00">
                 </div>
 
-                <button type="button" class="btn btn-primary" onclick="addPurchaseItem()" style="height: 42px; padding: 0 24px; font-weight: 700; font-size: 0.95rem; white-space: nowrap;">
+                <button type="button" class="btn btn-primary" onclick="addPurchaseItem()"
+                  style="height: 42px; padding: 0 24px; font-weight: 700; font-size: 0.95rem; white-space: nowrap;">
                   ➕ Agregar a la Lista
                 </button>
               </div>
@@ -743,14 +795,19 @@
                   </tr>
                 </thead>
                 <tbody id="purchaseItemsTableBody">
-                  <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 20px;">Sin productos agregados</td></tr>
+                  <tr>
+                    <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 20px;">Sin productos
+                      agregados</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
 
-          <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-            <span style="font-size: 0.85rem; color: var(--text-muted);">Los precios de compra se actualizarán automáticamente en el inventario.</span>
+          <div
+            style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Los precios de compra se actualizarán
+              automáticamente en el inventario.</span>
             <div style="font-size: 1.25rem; font-weight: 700; color: var(--accent-green);">
               Total Compra: Q<span id="purTotalAmount">0.00</span>
             </div>
