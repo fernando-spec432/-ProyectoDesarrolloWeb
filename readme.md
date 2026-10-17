@@ -3,6 +3,13 @@
 Sistema de información integral, moderno y desacoplado para la administración, control de inventario, compras, ventas POS y consulta de productos de supermercado.
 
 ---
+## Auditoria
+Proyecto: Sistema de Gestión Comercial Control Pro
+Estudiante: Fernando Cristian Lopez Guevara
+Carné: 6990-23-6689 - Sección A
+Tecnologías: Angular, Python, FastAPI, TypeScript, PostgreSQL (Supabase), HTML5, CSS3, JavaScript.
+Instrucciones de ejecución: Explicar brevemente cómo levantar el Backend (python main.py) y el Frontend.
+
 
 ## 🏗️ Arquitectura del Sistema
 

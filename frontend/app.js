@@ -1,4 +1,5 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+const BACKEND_HOST = window.location.hostname === '127.0.0.1' ? '127.0.0.1' : 'localhost';
+const API_BASE_URL = `http://${BACKEND_HOST}:8000/api`;
 
 // --- ESTADO LOCAL EN MEMORIA (FALLBACK DEMO Y CACHÉ) ---
 let localCategories = [
@@ -191,7 +192,7 @@ function updateUserProfileDisplay() {
 
 async function checkBackendConnection() {
   try {
-    const res = await fetch('http://localhost:8000/', { method: 'GET' });
+    const res = await fetch(`http://${BACKEND_HOST}:8000/`, { method: 'GET' });
     if (res.ok) {
       isLiveBackend = true;
       document.getElementById('apiStatusBadge').style.borderColor = 'rgba(16, 185, 129, 0.3)';
@@ -345,6 +346,16 @@ function populateSelectDropdowns() {
   localProducts.forEach(p => {
     purProdSelect.innerHTML += `<option value="${p.id}">${p.nombre} (P. Compra actual: Q${parseFloat(p.precio_compra).toFixed(2)})</option>`;
   });
+}
+
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 // ==========================================
@@ -1267,7 +1278,21 @@ async function savePurchase(e) {
 
   const totalCompra = purchaseCartItems.reduce((sum, i) => sum + i.subtotal, 0);
   const newId = localPurchases.length ? Math.max(...localPurchases.map(p => p.id)) + 1 : 1;
+  const prov = localSuppliers.find(s => s.id === provId);
   localPurchases.unshift({
     id: newId,
     numero_compra: `CMP-2026-${newId.toString().padStart(3, '0')}`,
     proveedor_id: provId,
+    proveedor: { nombre_proveedor: prov ? prov.nombre_proveedor : 'Proveedor' },
+    usuario: { nombre_completo: currentUser ? currentUser.nombre_completo : 'Administrador' },
+    fecha: new Date().toISOString(),
+    total: totalCompra,
+    estado: 'COMPLETADA',
+    detalles: [...purchaseCartItems]
+  });
+
+  closeModal('purchaseModal');
+  renderModule5();
+  renderModule7();
+  alert('✅ Compra registrada exitosamente.');
+}
